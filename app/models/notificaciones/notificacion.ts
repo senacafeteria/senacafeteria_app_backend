@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import Usuario from '#models/auth/usuario'
 
 export type TipoNotificacion =
   | 'stock_critico'
@@ -33,7 +35,8 @@ export default class Notificacion extends BaseModel {
   @column()
   declare leida: boolean
 
-  // Referencia polimórfica — igual patrón que en eventos_trazabilidad
+  // Referencia polimórfica — igual patrón que en eventos_trazabilidad,
+  // sin relación Lucid
   @column()
   declare moduloOrigen: string | null
 
@@ -42,4 +45,7 @@ export default class Notificacion extends BaseModel {
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+
+  @belongsTo(() => Usuario, { foreignKey: 'usuarioDestinatarioId' })
+  declare destinatario: BelongsTo<typeof Usuario>
 }
