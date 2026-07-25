@@ -1,5 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import Receta from '#models/produccion/receta'
+import Usuario from '#models/auth/usuario'
 
 export type TiempoComida = 'desayuno' | 'almuerzo' | 'refrigerio'
 
@@ -33,4 +36,10 @@ export default class Minuta extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+
+  @belongsTo(() => Receta, { foreignKey: 'recetaId' })
+  declare receta: BelongsTo<typeof Receta>
+
+  @belongsTo(() => Usuario, { foreignKey: 'createdBy' })
+  declare creadoPor: BelongsTo<typeof Usuario>
 }
