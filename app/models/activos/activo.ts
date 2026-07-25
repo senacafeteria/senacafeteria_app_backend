@@ -1,5 +1,11 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import CategoriaActivo from '#models/activos/categoria_activo'
+import HistorialEstadoActivo from '#models/activos/historial_estado_activo'
+import MantenimientoProgramado from '#models/activos/mantenimiento_programado'
+import AvisoUrgente from '#models/avisos/aviso_urgente'
+import Usuario from '#models/auth/usuario'
 
 export type EstadoActivoFisico =
   | 'operativo'
@@ -54,4 +60,21 @@ export default class Activo extends BaseModel {
 
   @column.dateTime()
   declare deletedAt: DateTime | null // soft delete
+
+  // Relaciones "belongsTo"
+  @belongsTo(() => CategoriaActivo, { foreignKey: 'categoriaId' })
+  declare categoria: BelongsTo<typeof CategoriaActivo>
+
+  @belongsTo(() => Usuario, { foreignKey: 'responsableId' })
+  declare responsable: BelongsTo<typeof Usuario>
+
+  // Relaciones "hasMany"
+  @hasMany(() => HistorialEstadoActivo, { foreignKey: 'activoId' })
+  declare historialEstados: HasMany<typeof HistorialEstadoActivo>
+
+  @hasMany(() => MantenimientoProgramado, { foreignKey: 'activoId' })
+  declare mantenimientos: HasMany<typeof MantenimientoProgramado>
+
+  @hasMany(() => AvisoUrgente, { foreignKey: 'activoId' })
+  declare avisosUrgentes: HasMany<typeof AvisoUrgente>
 }

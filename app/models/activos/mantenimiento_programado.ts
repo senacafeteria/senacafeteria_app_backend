@@ -1,5 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import Activo from '#models/activos/activo'
+import Usuario from '#models/auth/usuario'
 
 export type EstadoMantenimiento = 'pendiente' | 'en_proceso' | 'completado'
 
@@ -35,4 +38,10 @@ export default class MantenimientoProgramado extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+
+  @belongsTo(() => Activo, { foreignKey: 'activoId' })
+  declare activo: BelongsTo<typeof Activo>
+
+  @belongsTo(() => Usuario, { foreignKey: 'createdBy' })
+  declare creadoPor: BelongsTo<typeof Usuario>
 }
