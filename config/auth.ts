@@ -5,32 +5,32 @@ import type { InferAuthenticators, InferAuthEvents, Authenticators } from '@adon
 
 const authConfig = defineConfig({
   /**
-   * Default guard used when no guard is explicitly specified.
+   * Guard usado por defecto cuando no se especifica ninguno.
    */
   default: 'api',
 
   guards: {
     /**
-     * Token-based guard for stateless API authentication.
+     * Guard basado en tokens, para autenticación de API sin estado
+     * (el que usa React desde el frontend).
      */
     api: tokensGuard({
       provider: tokensUserProvider({
         tokens: 'accessTokens',
-        model: () => import('#models/usuario'),
+        model: () => import('#models/auth/usuario'),
       }),
     }),
 
     /**
-     * Session-based guard for browser authentication.
+     * Guard basado en sesión, por si en el futuro se necesita
+     * autenticación desde el propio navegador (poco usado en
+     * este proyecto, pero se deja configurado).
      */
     web: sessionGuard({
-      /**
-       * Enable persistent login using remember-me tokens.
-       */
       useRememberMeTokens: false,
 
       provider: sessionUserProvider({
-        model: () => import('#models/usuario'),
+        model: () => import('#models/auth/usuario'),
       }),
     }),
   },
@@ -39,8 +39,7 @@ const authConfig = defineConfig({
 export default authConfig
 
 /**
- * Inferring types from the configured auth
- * guards.
+ * Inferencia de tipos a partir de los guards configurados.
  */
 declare module '@adonisjs/auth/types' {
   export interface Authenticators extends InferAuthenticators<typeof authConfig> {}
