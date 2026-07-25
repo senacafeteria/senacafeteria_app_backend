@@ -1,5 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import Recepcion from '#models/proveedores/recepcion'
+import Producto from '#models/inventario/producto'
+import LoteProducto from '#models/inventario/lote_producto'
 
 export type EstadoDiferencia = 'sin_diferencia' | 'excedente' | 'faltante'
 
@@ -36,4 +40,13 @@ export default class RecepcionItem extends BaseModel {
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+
+  @belongsTo(() => Recepcion, { foreignKey: 'recepcionId' })
+  declare recepcion: BelongsTo<typeof Recepcion>
+
+  @belongsTo(() => Producto, { foreignKey: 'productoId' })
+  declare producto: BelongsTo<typeof Producto>
+
+  @belongsTo(() => LoteProducto, { foreignKey: 'loteId' })
+  declare lote: BelongsTo<typeof LoteProducto>
 }

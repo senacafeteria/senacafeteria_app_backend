@@ -1,5 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
+import Producto from '#models/inventario/producto'
+import LoteProducto from '#models/inventario/lote_producto'
+import Recepcion from '#models/proveedores/recepcion'
 
 export type TipoProveedor = 'interno' | 'externo'
 
@@ -64,4 +68,13 @@ export default class Proveedor extends BaseModel {
 
   @column.dateTime()
   declare deletedAt: DateTime | null // soft delete
+
+  @hasMany(() => Producto, { foreignKey: 'proveedorId' })
+  declare productos: HasMany<typeof Producto>
+
+  @hasMany(() => LoteProducto, { foreignKey: 'proveedorId' })
+  declare lotes: HasMany<typeof LoteProducto>
+
+  @hasMany(() => Recepcion, { foreignKey: 'proveedorId' })
+  declare recepciones: HasMany<typeof Recepcion>
 }
