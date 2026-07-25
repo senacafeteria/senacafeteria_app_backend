@@ -1,5 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import LoteProducto from '#models/inventario/lote_producto'
+import Usuario from '#models/auth/usuario'
 
 export type TipoEventoTrazabilidad =
   | 'ingreso'
@@ -31,8 +34,8 @@ export default class EventoTrazabilidad extends BaseModel {
   @column(decimalTransform)
   declare cantidad: number | null
 
-  // Referencia polimórfica — apunta a la fila de origen en otra tabla
-  // (recepciones, produccion_diaria, refrigerios_despachos, mermas, etc.)
+  // Referencia polimórfica — sin relación Lucid, se resuelve en el
+  // servicio de Trazabilidad según el valor de referenciaTipo
   @column()
   declare referenciaTipo: string | null
 
@@ -47,4 +50,10 @@ export default class EventoTrazabilidad extends BaseModel {
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+
+  @belongsTo(() => LoteProducto, { foreignKey: 'loteId' })
+  declare lote: BelongsTo<typeof LoteProducto>
+
+  @belongsTo(() => Usuario, { foreignKey: 'responsableId' })
+  declare responsable: BelongsTo<typeof Usuario>
 }
