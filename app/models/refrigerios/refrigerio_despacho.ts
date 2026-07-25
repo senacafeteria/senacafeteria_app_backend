@@ -1,6 +1,11 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
-import type { OrigenRefrigerio } from '#models/refrigerios/refrigerio_agendado'
+import { BaseModel, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import RefrigerioAgendado, { type OrigenRefrigerio } from '#models/refrigerios/refrigerio_agendado'
+import Receta from '#models/produccion/receta'
+import FichaGrupo from '#models/refrigerios/ficha_grupo'
+import Usuario from '#models/auth/usuario'
+import DespachoInsumoDescontado from '#models/refrigerios/despacho_insumo_descontado'
 
 export type TipoDespacho = 'agendado' | 'directo'
 
@@ -52,4 +57,19 @@ export default class RefrigerioDespacho extends BaseModel {
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+
+  @belongsTo(() => RefrigerioAgendado, { foreignKey: 'agendamientoId' })
+  declare agendamiento: BelongsTo<typeof RefrigerioAgendado>
+
+  @belongsTo(() => Receta, { foreignKey: 'recetaId' })
+  declare receta: BelongsTo<typeof Receta>
+
+  @belongsTo(() => FichaGrupo, { foreignKey: 'fichaId' })
+  declare ficha: BelongsTo<typeof FichaGrupo>
+
+  @belongsTo(() => Usuario, { foreignKey: 'responsableId' })
+  declare responsable: BelongsTo<typeof Usuario>
+
+  @hasMany(() => DespachoInsumoDescontado, { foreignKey: 'despachoId' })
+  declare insumosDescontados: HasMany<typeof DespachoInsumoDescontado>
 }

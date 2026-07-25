@@ -1,5 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
+import RefrigerioAgendado from '#models/refrigerios/refrigerio_agendado'
+import RefrigerioDespacho from '#models/refrigerios/refrigerio_despacho'
 
 export type EstadoFicha = 'activo' | 'inactivo'
 
@@ -41,4 +44,10 @@ export default class FichaGrupo extends BaseModel {
 
   @column.dateTime()
   declare deletedAt: DateTime | null // soft delete
+
+  @hasMany(() => RefrigerioAgendado, { foreignKey: 'fichaId' })
+  declare agendamientos: HasMany<typeof RefrigerioAgendado>
+
+  @hasMany(() => RefrigerioDespacho, { foreignKey: 'fichaId' })
+  declare despachos: HasMany<typeof RefrigerioDespacho>
 }
