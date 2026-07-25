@@ -1,4 +1,8 @@
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import VerificacionHigiene from '#models/higiene/verificacion_higiene'
+import Producto from '#models/inventario/producto'
+import MovimientoInventario from '#models/inventario/movimiento_inventario'
 
 const decimalTransform = {
   consume: (value: string | null) => (value === null ? null : Number(value)),
@@ -30,4 +34,13 @@ export default class VerificacionHigieneItem extends BaseModel {
 
   @column()
   declare movimientoId: string | null
+
+  @belongsTo(() => VerificacionHigiene, { foreignKey: 'verificacionId' })
+  declare verificacion: BelongsTo<typeof VerificacionHigiene>
+
+  @belongsTo(() => Producto, { foreignKey: 'productoEppId' })
+  declare productoEpp: BelongsTo<typeof Producto>
+
+  @belongsTo(() => MovimientoInventario, { foreignKey: 'movimientoId' })
+  declare movimiento: BelongsTo<typeof MovimientoInventario>
 }

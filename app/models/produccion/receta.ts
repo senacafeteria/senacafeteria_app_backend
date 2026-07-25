@@ -1,5 +1,12 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import Usuario from '#models/auth/usuario'
+import RecetaInsumo from '#models/produccion/receta_insumo'
+import ProduccionDiaria from '#models/produccion/produccion_diaria'
+import Minuta from '#models/minuta/minuta'
+import RefrigerioAgendado from '#models/refrigerios/refrigerio_agendado'
+import RefrigerioDespacho from '#models/refrigerios/refrigerio_despacho'
 
 export type CategoriaReceta = 'refrigerio' | 'almuerzo' | 'postre' | 'preparacion_interna' | 'otro'
 
@@ -39,4 +46,22 @@ export default class Receta extends BaseModel {
 
   @column.dateTime()
   declare deletedAt: DateTime | null // soft delete
+
+  @belongsTo(() => Usuario, { foreignKey: 'createdBy' })
+  declare creadoPor: BelongsTo<typeof Usuario>
+
+  @hasMany(() => RecetaInsumo, { foreignKey: 'recetaId' })
+  declare insumos: HasMany<typeof RecetaInsumo>
+
+  @hasMany(() => ProduccionDiaria, { foreignKey: 'recetaId' })
+  declare produccionesDiarias: HasMany<typeof ProduccionDiaria>
+
+  @hasMany(() => Minuta, { foreignKey: 'recetaId' })
+  declare usosEnMinuta: HasMany<typeof Minuta>
+
+  @hasMany(() => RefrigerioAgendado, { foreignKey: 'recetaId' })
+  declare agendamientos: HasMany<typeof RefrigerioAgendado>
+
+  @hasMany(() => RefrigerioDespacho, { foreignKey: 'recetaId' })
+  declare despachos: HasMany<typeof RefrigerioDespacho>
 }
