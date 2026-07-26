@@ -31,6 +31,9 @@ export default class Recepcion extends BaseModel {
   declare responsableId: string
 
   @column()
+  declare registradoPor: string | null
+
+  @column()
   declare observaciones: string | null
 
   @column()
@@ -44,6 +47,9 @@ export default class Recepcion extends BaseModel {
 
   @belongsTo(() => Usuario, { foreignKey: 'responsableId' })
   declare responsable: BelongsTo<typeof Usuario>
+
+  @belongsTo(() => Usuario, { foreignKey: 'registradoPor' })
+  declare registradoPorUsuario: BelongsTo<typeof Usuario>
 
   @hasMany(() => RecepcionItem, { foreignKey: 'recepcionId' })
   declare items: HasMany<typeof RecepcionItem>

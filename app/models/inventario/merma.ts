@@ -47,6 +47,9 @@ export default class Merma extends BaseModel {
   declare responsableId: string
 
   @column()
+  declare registradoPor: string | null
+
+  @column()
   declare observaciones: string | null
 
   @column()
@@ -66,6 +69,9 @@ export default class Merma extends BaseModel {
 
   @belongsTo(() => Usuario, { foreignKey: 'responsableId' })
   declare responsable: BelongsTo<typeof Usuario>
+
+  @belongsTo(() => Usuario, { foreignKey: 'registradoPor' })
+  declare registradoPorUsuario: BelongsTo<typeof Usuario>
 
   @belongsTo(() => AvisoUrgente, { foreignKey: 'avisoUrgenteId' })
   declare avisoUrgente: BelongsTo<typeof AvisoUrgente>

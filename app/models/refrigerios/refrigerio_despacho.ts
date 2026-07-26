@@ -52,6 +52,9 @@ export default class RefrigerioDespacho extends BaseModel {
   @column()
   declare responsableId: string
 
+  @column()
+  declare registradoPor: string | null
+
   @column.dateTime()
   declare confirmadoAt: DateTime | null
 
@@ -69,6 +72,9 @@ export default class RefrigerioDespacho extends BaseModel {
 
   @belongsTo(() => Usuario, { foreignKey: 'responsableId' })
   declare responsable: BelongsTo<typeof Usuario>
+
+  @belongsTo(() => Usuario, { foreignKey: 'registradoPor' })
+  declare registradoPorUsuario: BelongsTo<typeof Usuario>
 
   @hasMany(() => DespachoInsumoDescontado, { foreignKey: 'despachoId' })
   declare insumosDescontados: HasMany<typeof DespachoInsumoDescontado>

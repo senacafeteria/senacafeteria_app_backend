@@ -46,6 +46,9 @@ export default class MovimientoInventario extends BaseModel {
   declare responsableId: string
 
   @column()
+  declare registradoPor: string | null
+
+  @column()
   declare observaciones: string | null
 
   @column.dateTime({ autoCreate: true })
@@ -59,4 +62,7 @@ export default class MovimientoInventario extends BaseModel {
 
   @belongsTo(() => Usuario, { foreignKey: 'responsableId' })
   declare responsable: BelongsTo<typeof Usuario>
+
+  @belongsTo(() => Usuario, { foreignKey: 'registradoPor' })
+  declare registradoPorUsuario: BelongsTo<typeof Usuario>
 }

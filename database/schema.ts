@@ -246,7 +246,7 @@ export class HistorialAuditoriaAccesoSchema extends BaseModel {
 }
 
 export class HistorialEstadoActivoSchema extends BaseModel {
-  static $columns = ['activoId', 'avisoUrgenteId', 'createdAt', 'estadoAnterior', 'estadoNuevo', 'id', 'motivo', 'responsableId'] as const
+  static $columns = ['activoId', 'avisoUrgenteId', 'createdAt', 'estadoAnterior', 'estadoNuevo', 'id', 'motivo', 'registradoPor', 'responsableId'] as const
   $columns = HistorialEstadoActivoSchema.$columns
   @column()
   declare activoId: string
@@ -262,6 +262,8 @@ export class HistorialEstadoActivoSchema extends BaseModel {
   declare id: string
   @column()
   declare motivo: string | null
+  @column()
+  declare registradoPor: string | null
   @column()
   declare responsableId: string
 }
@@ -325,7 +327,7 @@ export class MantenimientosProgramadoSchema extends BaseModel {
 }
 
 export class MermaSchema extends BaseModel {
-  static $columns = ['avisoUrgenteId', 'cantidad', 'createdAt', 'fecha', 'id', 'loteId', 'motivo', 'observaciones', 'origen', 'productoId', 'responsableId', 'unidad'] as const
+  static $columns = ['avisoUrgenteId', 'cantidad', 'createdAt', 'fecha', 'id', 'loteId', 'motivo', 'observaciones', 'origen', 'productoId', 'registradoPor', 'responsableId', 'unidad'] as const
   $columns = MermaSchema.$columns
   @column()
   declare avisoUrgenteId: string | null
@@ -347,6 +349,8 @@ export class MermaSchema extends BaseModel {
   declare origen: any
   @column()
   declare productoId: string
+  @column()
+  declare registradoPor: string | null
   @column()
   declare responsableId: string
   @column()
@@ -375,7 +379,7 @@ export class MinutaSchema extends BaseModel {
 }
 
 export class MovimientosInventarioSchema extends BaseModel {
-  static $columns = ['cantidad', 'createdAt', 'fechaOperacion', 'id', 'loteId', 'motivoSalida', 'numeroRemision', 'observaciones', 'productoId', 'responsableId', 'tipoMovimiento', 'unidad'] as const
+  static $columns = ['cantidad', 'createdAt', 'fechaOperacion', 'id', 'loteId', 'motivoSalida', 'numeroRemision', 'observaciones', 'productoId', 'registradoPor', 'responsableId', 'tipoMovimiento', 'unidad'] as const
   $columns = MovimientosInventarioSchema.$columns
   @column()
   declare cantidad: string
@@ -395,6 +399,8 @@ export class MovimientosInventarioSchema extends BaseModel {
   declare observaciones: string | null
   @column()
   declare productoId: string
+  @column()
+  declare registradoPor: string | null
   @column()
   declare responsableId: string
   @column()
@@ -560,7 +566,7 @@ export class RecepcionItemSchema extends BaseModel {
 }
 
 export class RecepcioneSchema extends BaseModel {
-  static $columns = ['createdAt', 'esPrempacado', 'fechaRecepcion', 'id', 'numeroLote', 'numeroRemision', 'observaciones', 'proveedorId', 'responsableId', 'tieneDiferencias'] as const
+  static $columns = ['createdAt', 'esPrempacado', 'fechaRecepcion', 'id', 'numeroLote', 'numeroRemision', 'observaciones', 'proveedorId', 'registradoPor', 'responsableId', 'tieneDiferencias'] as const
   $columns = RecepcioneSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -578,6 +584,8 @@ export class RecepcioneSchema extends BaseModel {
   declare observaciones: string | null
   @column()
   declare proveedorId: string
+  @column()
+  declare registradoPor: string | null
   @column()
   declare responsableId: string
   @column()
@@ -652,7 +660,7 @@ export class RefrigeriosAgendadoSchema extends BaseModel {
 }
 
 export class RefrigeriosDespachoSchema extends BaseModel {
-  static $columns = ['agendamientoId', 'cantidad', 'checklistEmpaqueSellado', 'checklistFechaVerificada', 'checklistServilleta', 'confirmadoAt', 'createdAt', 'fichaId', 'id', 'observaciones', 'origen', 'recetaId', 'responsableId', 'tipoDespacho'] as const
+  static $columns = ['agendamientoId', 'cantidad', 'checklistEmpaqueSellado', 'checklistFechaVerificada', 'checklistServilleta', 'confirmadoAt', 'createdAt', 'fichaId', 'id', 'observaciones', 'origen', 'recetaId', 'registradoPor', 'responsableId', 'tipoDespacho'] as const
   $columns = RefrigeriosDespachoSchema.$columns
   @column()
   declare agendamientoId: string | null
@@ -678,6 +686,8 @@ export class RefrigeriosDespachoSchema extends BaseModel {
   declare origen: any
   @column()
   declare recetaId: string
+  @column()
+  declare registradoPor: string | null
   @column()
   declare responsableId: string
   @column()

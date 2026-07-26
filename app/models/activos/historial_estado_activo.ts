@@ -27,6 +27,9 @@ export default class HistorialEstadoActivo extends BaseModel {
   declare responsableId: string
 
   @column()
+  declare registradoPor: string | null
+
+  @column()
   declare avisoUrgenteId: string | null
 
   @column.dateTime({ autoCreate: true })
@@ -37,6 +40,9 @@ export default class HistorialEstadoActivo extends BaseModel {
 
   @belongsTo(() => Usuario, { foreignKey: 'responsableId' })
   declare responsable: BelongsTo<typeof Usuario>
+
+  @belongsTo(() => Usuario, { foreignKey: 'registradoPor' })
+  declare registradoPorUsuario: BelongsTo<typeof Usuario>
 
   @belongsTo(() => AvisoUrgente, { foreignKey: 'avisoUrgenteId' })
   declare avisoUrgente: BelongsTo<typeof AvisoUrgente>
