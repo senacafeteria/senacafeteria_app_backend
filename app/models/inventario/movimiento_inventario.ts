@@ -6,7 +6,12 @@ import LoteProducto from '#models/inventario/lote_producto'
 import Usuario from '#models/auth/usuario'
 
 export type TipoMovimiento = 'entrada' | 'salida'
-export type MotivoSalida = 'consumo_produccion' | 'despacho_grupo' | 'transferencia' | 'otro'
+export type MotivoSalida =
+  | 'consumo_produccion'
+  | 'despacho_grupo'
+  | 'transferencia'
+  | 'merma'
+  | 'otro'
 
 const decimalTransform = {
   consume: (value: string | null) => (value === null ? null : Number(value)),
